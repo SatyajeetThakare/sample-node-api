@@ -1,0 +1,31 @@
+{
+    "server": {
+        "port": 2000
+    },
+    "app": {
+        "prefix": "/collaborate/api",
+        "secret": "longlivenodejsafterallitsjavascript3cheershiphiphurray"
+    },
+    "db": {
+        "mongodb_url": "mongodb+srv://admin:bF1osyPX5VTyx3ID@cluster0.g4okk05.mongodb.net",
+        "db_name": "/collaborate",
+        "db_options": "",
+        "mongodb_session_store_url": "mongodb+srv://admin:bF1osyPX5VTyx3ID@cluster0.g4okk05.mongodb.net",
+        "session_db_name": "/collaborate",
+        "session_db_options": "?"
+    },
+    "auth": {
+        "token_validity": 3600,
+        "cookie_validity": 3600
+    },
+    "cookie": {
+        "path": "/collaborate",
+        "name": "collaborate_sid",
+        "validity": 3600
+    },
+    "token": {
+        "validity": 86400,
+        "refreshValidity": 604800,
+        "secret": "longlivenodejsafterallitsjavascript3cheershiphiphurray"
+    }
+}
