@@ -32,10 +32,10 @@ const logger = winston.createLogger({
     // - Write all logs error (and below) to `error.log`.
     //
     new winston.transports.File({
-      filename: path.resolve(__dirname, '../../logs/error.log'),
+      filename: path.resolve(__dirname, './logs/error.log'),
       level: 'error',
     }),
-    new winston.transports.File({ filename: path.resolve(__dirname, '../../logs/combined.log') }),
+    new winston.transports.File({ filename: path.resolve(__dirname, './logs/combined.log') }),
   ],
 });
 

@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const RoleService = require('./role.service');
 
+console.log('Hi');
+
 module.exports = router;
 
 async function create(req, res, next) {

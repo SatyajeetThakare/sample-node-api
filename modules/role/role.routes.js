@@ -1,4 +1,6 @@
 const routes = require('express').Router();
+console.log('In role routes');
+
 const {
   create,
   getAll,
