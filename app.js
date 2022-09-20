@@ -21,7 +21,7 @@ if (result.error) {
 const allRoutes = require('./routes');
 
 //  CONFIG
-const config = require(`${__dirname}/./config/config`)
+const config = require('./config/default.json');
 
 //  ROUTES
 // let corsOptions = {
