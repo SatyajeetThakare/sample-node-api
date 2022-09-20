@@ -12,7 +12,7 @@ var cors = require('cors');
 
 const session = require('express-session');
 
-let whitelist = ['http://localhost:4200'];
+let whitelist = ['http://localhost:4200', 'https://collaborateangularapp.web.app'];
 let corsOptions = {
   origin: function (origin, callback) {
     console.log('whitelist.indexOf(origin)', whitelist.indexOf(origin));
