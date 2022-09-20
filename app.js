@@ -3,7 +3,7 @@
 const express = require('express');
 var app = express();
 const http = require('http');
-require('dotenv').config();
+// require('dotenv').config();
 app.use(express.json());
 
 //  CONFIG
