@@ -8,8 +8,6 @@ if (
   || !process.env.REFRESH_TOKEN_EXPIRY
   || !process.env.REFRESH_TOKEN_ALGO
 ) {
-  console.log('process', process.env);
-  console.log('Hi');
   logger.error('Please set JWT ENV variables');
   process.exit(-1);
 }
