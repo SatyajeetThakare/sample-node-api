@@ -1,7 +1,7 @@
 {
-  "name": "collaborate-node-api",
+  "name": "sample-node-api",
   "version": "0.0.1",
-  "description": "Collaborate Node App",
+  "description": "Sample Node Project",
   "main": "app.js",
   "scripts": {
     "check": "eslint .",
@@ -14,48 +14,16 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "cheerio": "^1.0.0-rc.3",
-    "connect-mongo": "4.4.1",
-    "cookie-parser": "^1.4.4",
-    "cors": "^2.8.4",
-    "cron": "^1.7.1",
-    "deep-diff": "^1.0.2",
+    "connect-mongo": "^4.6.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "dotenv": "^6.2.0",
-    "elastic-apm-node": "^2.12.1",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
-    "fs": "0.0.1-security",
-    "helmet": "^3.12.1",
-    "html-pdf": "^3.0.1",
-    "htmldom": "^4.0.11",
     "http": "0.0.0",
     "https": "^1.0.0",
-    "jsdom": "^20.0.0",
     "jsonwebtoken": "^8.4.0",
-    "lodash": "^4.17.21",
-    "mkdirp": "^1.0.4",
-    "moment": "^2.23.0",
-    "mongoose": "^5.4.10",
-    "mongoose-auto-increment": "^5.0.1",
-    "mongoose-history": "^0.6.0",
-    "mongoose-sequence": "^5.3.1",
-    "mongoose-unique-validator": "^2.0.1",
-    "mongoose-version": "^1.1.0",
-    "morgan": "^1.9.1",
-    "multer": "^1.4.2",
-    "node-cron": "^2.0.3",
-    "nodemailer": "^6.4.6",
-    "querystring": "^0.2.0",
-    "request": "^2.87.0",
-    "request-promise": "^4.2.4",
-    "require-promise": "^1.0.1",
-    "rotating-file-stream": "^1.3.6",
-    "swagger-ui-express": "^3.0.10",
-    "url": "^0.11.0",
-    "uuid": "^3.2.1",
-    "winston": "^3.8.2",
-    "winston-daily-rotate-file": "^3.2.1"
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",
@@ -71,10 +39,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/221B-Analytics/collaborate-node-api.git"
+    "url": "git+https://github.com/SatyajeetThakare/sample-node-api.git"
   },
   "bugs": {
-    "url": "https://github.com/221B-Analytics/collaborate-node-api/issues"
+    "url": "https://github.com/SatyajeetThakare/sample-node-api/issues"
   },
-  "homepage": "https://github.com/221B-Analytics/collaborate-node-api#readme"
+  "homepage": "https://github.com/SatyajeetThakare/sample-node-api#readme"
 }
