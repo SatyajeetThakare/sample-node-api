@@ -15,7 +15,7 @@
  * @param {string} message the message you want to send for success/failure
  */
 
-function sendResponse(res, statusCode, data = {}, message) {
+function sendResponse(res, statusCode, data = {}, message, success, error) {
   if (typeof statusCode !== 'number') {
     throw new Error('statusCode should be a number');
   }
@@ -44,6 +44,8 @@ function sendResponse(res, statusCode, data = {}, message) {
     status,
     data,
     message,
+    success,
+    error
   });
 }
 

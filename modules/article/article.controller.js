@@ -2,55 +2,67 @@ const express = require('express');
 const router = express.Router();
 const ArticleService = require('./article.service');
 
+const { sendResponse } = require('../../utils');
+const { getUserId } = require('../../middlewares/isAuthenticated');
+
 module.exports = router;
 
 async function create(req, res, next) {
-    ArticleService.create(req.body).then((doc) => {
-        res.json({ error: false, success: true, message: "Article created successfully", data: doc });
-    }).catch(error => {
-        res.json({ error: false, success: true, message: (error || error.error) || error.message, data: {} });
-    });
+    try {
+        req.body.createdBy = await getUserId(req);
+        ArticleService.create(req.body).then((doc) => {
+            res.json({ error: false, success: true, message: "Article created successfully", data: doc });
+        }).catch(error => {
+            sendResponse(res, 401, null, (error.message || error || error.error), false, true);
+        });
+    } catch (error) {
+        sendResponse(res, 401, null, (error.message || error || error.error), false, true);
+    }
 }
 
-async function getAll(req, res, next) {
-
-    let _filter = req.query.filter
-    let allArticle = {}
-
-    if (_filter) {
-      allArticle = JSON.parse(_filter)
+async function getArticles(req, res, next) {
+    try {
+        let _filter = req.query.filter || {};
+        _filter.isActive = true;
+        ArticleService.getArticles(req.body).then((doc) => {
+            res.json({ error: false, success: true, message: "Articles fetched successfully", data: doc })
+        }).catch(error => {
+            sendResponse(res, 401, null, (error.message || error || error.error), false, true);
+        });
+    } catch (error) {
+        sendResponse(res, 401, null, (error.message || error || error.error), false, true);
     }
-    
-    ArticleService.getAll(req.body).then((doc) => {
-        res.json({ error: false, success: true, message: "Articles fetched successfully", data: doc })
-    }).catch(error => {
-        next(error);
-    });
 }
 
 async function getById(req, res, next) {
-    ArticleService.getById(req.params.id).then((doc) => {
-        res.json({ error: false, success: true, message: "Articles fetched successfully", data: doc })
-    }).catch(error => {
-        next(error);
-    });
+    try {
+        ArticleService.getById(req.params.id).then((doc) => {
+            res.json({ error: false, success: true, message: "Article fetched successfully", data: doc })
+        }).catch(error => {
+            sendResponse(res, 401, null, (error.message || error || error.error), false, true);
+        });   
+    } catch (error) {
+        sendResponse(res, 401, null, (error.message || error || error.error), false, true);
+    }
 }
 
 async function update(req, res, next) {
-    // ArticleService.update(req.params.id, req.body)
-    //     .then(() => res.json({}))
-    //     .catch(err => next(err));
+    req.body.updatedBy = await getUserId(req);
+    ArticleService.update(req.body)
+        .then(() => res.json({ error: false, success: true, message: "Article updated successfully", data: {} }))
+        .catch(error => sendResponse(res, 401, null, (error.message || error || error.error), false, true));
 }
 
 async function _delete(req, res, next) {
-    // ArticleService.delete(req.params.id)
-    //     .then(() => res.json({}))
-    //     .catch(err => next(err));
+    ArticleService.delete(req.params.id)
+        .then(() => res.json({ error: false, success: true, message: "Article deleted successfully", data: {} }))
+        .catch(error => sendResponse(res, 401, null, (error.message || error || error.error), false, true));
 }
+
 
 module.exports = {
     create,
-    getAll,
+    getArticles,
     getById,
     update,
     _delete

@@ -1,15 +1,17 @@
 const routes = require('express').Router();
 const {
   create,
-  getAll,
+  getArticles,
   getById,
-  update
+  update,
+  _delete
 } = require('./article.controller');
-const isAuthenticated = require('../../middlewares/isAuthenticated');
+const { isAuthenticated } = require('../../middlewares/isAuthenticated');
 
-routes.get('/events/getAll', isAuthenticated, getAll);
-routes.get('/events/getById/:id', isAuthenticated, getById);
-routes.post('/events/create', isAuthenticated, create);
-routes.patch('/events/update', isAuthenticated, update);
+routes.get('/articles/getArticles', isAuthenticated, getArticles);
+routes.get('/articles/getById/:id', isAuthenticated, getById);
+routes.post('/articles/create', isAuthenticated, create);
+routes.delete('/tasks/deleteArticle/:id', isAuthenticated, _delete);
+routes.patch('/articles/update', isAuthenticated, update);
 
 module.exports = routes;

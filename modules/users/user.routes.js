@@ -7,17 +7,17 @@ const app = express();
 const oneDay = 1000 * 60 * 60 * 24;
 app.use(sessions({
     secret: "longlivenodejsafterallitsjavascript3cheershiphiphurray",
-    saveUninitialized:true,
+    saveUninitialized: true,
     cookie: { maxAge: oneDay * 2 },
     resave: false
 }));
 
 const {
-  authenticate,
-  register,
-  update
+    authenticate,
+    register,
+    update
 } = require('./user.controller');
-const isAuthenticated = require('../../middlewares/isAuthenticated');
+const { isAuthenticated } = require('../../middlewares/isAuthenticated');
 
 sessions.Session.prototype.authenticate = (req, user, cb) => {
     try {

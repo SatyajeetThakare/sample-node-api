@@ -5,7 +5,7 @@ const {
   getById,
   update
 } = require('./event.controller');
-const isAuthenticated = require('../../middlewares/isAuthenticated');
+const { isAuthenticated } = require('../../middlewares/isAuthenticated');
 
 routes.get('/events/getAll', isAuthenticated, getAll);
 routes.get('/events/getById/:id', isAuthenticated, getById);

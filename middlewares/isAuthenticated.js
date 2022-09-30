@@ -10,17 +10,20 @@ async function isAuthenticated(req, res, next) {
     }
 
     const decoded = jwt.decryptAccessToken(token);
-    // const decoded = jwt.verify(token, config.TOKEN_SECRET);
-    
+    // const decoded2 = jwt.verify(token, config.TOKEN_SECRET);
+    // console.log('token', token, req.body, decoded);
+
     // Perform this check if you want to match token user and session user
-    // let sessionUserInfo = req?.session?.userInfo;
+    let sessionUserInfo = req?.session?.userInfo;
+    // console.log('sessionUserInfo', sessionUserInfo);
     // if (decoded.id !== sessionUserInfo._id) {
     //   return sendResponse(res, 401, { tokenExpired: 1 }, 'Token Expired');
     // }
 
     // Check if token sent matches with DB
-    let tokenDoc = await TokenService.getToken({email: decoded.email});
-    if(token != tokenDoc?.token) {
+    let tokenDoc = await TokenService.getToken({ email: decoded.email });
+    // console.log('tokenDoc', tokenDoc);
+    if (token != tokenDoc?.token) {
       return sendResponse(res, 401, { tokenExpired: 0 }, 'Corrupt token');
     }
 
@@ -40,4 +43,13 @@ async function isAuthenticated(req, res, next) {
   return 0;
 }
 
-module.exports = isAuthenticated;
+async function getUserId(req) {
+  const token = req.header('x-auth-token') || req.header('Authorization');
+  const decoded = jwt.decryptAccessToken(token);
+  return decoded.id;
+}
+
+module.exports = {
+  isAuthenticated,
+  getUserId
+};

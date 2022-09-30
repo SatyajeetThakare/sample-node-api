@@ -1,13 +1,11 @@
 const routes = require('express').Router();
-console.log('In role routes');
-
 const {
   create,
   getAll,
   getById,
   update
 } = require('./role.controller');
-const isAuthenticated = require('../../middlewares/isAuthenticated');
+const { isAuthenticated } = require('../../middlewares/isAuthenticated');
 
 routes.get('/roles/getAll', isAuthenticated, getAll);
 routes.get('/roles/getById/:id', isAuthenticated, getById);

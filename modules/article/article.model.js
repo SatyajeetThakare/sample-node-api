@@ -14,7 +14,7 @@ const ArticleSchema = new mongoose.Schema({
   description: {
     type: String,
   },
-  articleDate: {
+  articleImage: {
     type: String,
   },
   remarks: {
@@ -28,9 +28,6 @@ const ArticleSchema = new mongoose.Schema({
     default: true,
     index: true,
   },
-  completedBy: [{
-    type: Number
-  }],
   createdBy: {
     type: mongoose.Schema.Types.Mixed,
   },

@@ -18,7 +18,6 @@ module.exports = {
 function authenticate(req) {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log('req.body', req.body);
             let { email, password } = req.body;
             console.log('In authenticate');
             const user = await User.findOne({ email });

@@ -15,7 +15,6 @@ const session = require('express-session');
 let whitelist = ['http://localhost:4200', 'https://collaborateangularapp.web.app'];
 let corsOptions = {
   origin: function (origin, callback) {
-    console.log('whitelist.indexOf(origin)', whitelist.indexOf(origin));
     if (whitelist.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
@@ -35,34 +34,33 @@ const MongoStore = require('connect-mongo');
 const sess = {
   key: config.cookie.name,
   secret: config.app.secret,
-  cookie: {
-      domain: config.cookie.domain,
-      path: config.cookie.path,
-      maxAge: config.cookie.validity * 1000,
-      httpOnly: false,
-  },
+  // cookie: {
+  //   domain: config.cookie.domain,
+  //   path: config.cookie.path,
+  //   maxAge: config.cookie.validity * 1000,
+  //   httpOnly: false,
+  // },
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
   // store: store,
   store: MongoStore.create({
-      mongoUrl: process.env.MONGO_URL ? process.env.MONGO_URL : config.db.mongodb_session_store_url + config.db.session_db_name + config.db.session_db_options,
-      ttl: config.cookie.validity,
-      autoRemove: 'native', // Default
+    mongoUrl: process.env.MONGO_URL ? process.env.MONGO_URL : config.db.mongodb_session_store_url + config.db.session_db_name + config.db.session_db_options,
+    ttl: config.cookie.validity,
+    autoRemove: 'native', // Default
   }),
   name: config.cookie.name,
   genid: function () {
-      return uuid() // use UUIDs for session IDs
+    return uuid() // use UUIDs for session IDs
   },
 };
 app.use(session(sess));
 
 // Routes
 const allRoutes = require('./routes');
+app.use(config.app.prefix, allRoutes);
 
 const hostname = '127.0.0.1';
 const port = 3000;
-app.use(config.app.prefix, allRoutes);
-
 //  START THE SERVER
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
