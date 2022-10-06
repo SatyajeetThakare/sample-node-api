@@ -10,4 +10,5 @@ module.exports = {
     Event: require('../modules/event/event.model'),
     Article: require('../modules/article/article.model'),
     Task: require('../modules/task/task.model'),
+    QuestionAndAnswer: require('../modules/question-and-answer/question-and-answer.model'),
 };
