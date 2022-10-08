@@ -14,14 +14,14 @@ async function create(req, res, next) {
 
 async function getAll(req, res, next) {
 
-    let _filter = req.query.filter
-    let allEvent = {}
-
-    if (_filter) {
-      allEvent = JSON.parse(_filter)
+    let _filter = {};
+    if (req.query && req.query.limit > 0) {
+        _filter.limit = Number(req.query.limit);
+    } else {
+        _filter.limit = null;
     }
     
-    EventService.getAll(req.body).then((doc) => {
+    EventService.getAll(_filter).then((doc) => {
         res.json({ error: false, success: true, message: "Events fetched successfully", data: doc })
     }).catch(error => {
         next(error);

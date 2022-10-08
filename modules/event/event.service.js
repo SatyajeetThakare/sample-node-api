@@ -28,16 +28,19 @@ function create(event) {
     });
 }
 
-function getAll(allEvent) {
+function getAll(_filter) {
     return new Promise((resolve, reject) => {
         try {
-            Event.find({ 'isActive': true }).exec(function (error, doc) {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(doc);
-                }
-            });
+            Event.find({ 'isActive': true, "eventDate" : { $gte : new Date() } })
+                .sort({ eventDate: 1 })
+                .limit(_filter.limit)
+                .exec(function (error, doc) {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve(doc);
+                    }
+                });
         } catch (error) {
             reject(error);
         }

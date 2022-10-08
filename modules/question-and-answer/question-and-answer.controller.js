@@ -52,12 +52,7 @@ async function getQuestionAnswersById(req, res, next) {
 
 async function update(req, res, next) {
     req.body.updatedBy = await getUserId(req);
-    req.body.updatedBy = await getUserId(req);
-    req.body.updatedBy = await getUserId(req);
-    answer = {
-
-    }
-    QuestionAndAnswerService.update(question)
+    QuestionAndAnswerService.update(req.body)
         .then(() => res.json({ error: false, success: true, message: "Question updated successfully", data: {} }))
         .catch(error => sendResponse(res, 401, null, (error.message || error || error.error), false, true));
 }
