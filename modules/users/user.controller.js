@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const UserService = require('./user.service');
 
+const { getUserId } = require('../../middlewares/isAuthenticated');
+
 module.exports = router;
 
 async function authenticate(req, res, next) {
@@ -27,7 +29,9 @@ async function getAll(req, res, next) {
 }
 
 async function getUserNotifications(req, res, next) {
-    UserService.getUserNotifications(req)
+    console.log('In getUserNotifications');
+    let userId = await getUserId(req);
+    UserService.getUserNotifications(userId)
         .then((user) => {
             res.json({ error: false, success: true, message: "User notifications fetched successfully", data: user })
         }).catch(error => res.json({ error: false, success: true, message: (error || error.error) || error.message, data: {} }));

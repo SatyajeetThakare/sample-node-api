@@ -10,6 +10,7 @@ module.exports = {
     authenticate,
     getAll,
     getById,
+    getUserNotifications,
     create,
     update,
     delete: _delete
@@ -57,6 +58,10 @@ function authenticate(req) {
 }
 
 async function getAll() {
+    return await User.find();
+}
+
+async function getUserNotifications() {
     return await User.find();
 }
 

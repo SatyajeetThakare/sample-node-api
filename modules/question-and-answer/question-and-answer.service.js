@@ -96,7 +96,6 @@ function answerAQuestion(questionId, answer) {
                 if (error) {
                     reject(error);
                 } else {
-                    console.log('doc', doc);
                     resolve(doc);
                 }
             });

@@ -31,7 +31,7 @@ sessions.Session.prototype.authenticate = (req, user, cb) => {
 }
 
 userRoutes.post('/users/authenticate', authenticate);
-userRoutes.post('/users/getUserNotifications', isAuthenticated, getUserNotifications);
+userRoutes.get('/users/getUserNotifications', isAuthenticated, getUserNotifications);
 userRoutes.post('/users/register', register);
 userRoutes.patch('/users/update', isAuthenticated, update);
 // userRoutes.patch('/users/password', isAuthenticated, changeUserPasswordController);
