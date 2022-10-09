@@ -45,6 +45,10 @@ const QuestionAndAnswerSchema = new mongoose.Schema({
   updatedBy: {
     type: mongoose.Schema.Types.Mixed,
     ref: 'User'
+  },
+  isAnswered: {
+    type: Boolean,
+    default: false
   }
 }, {
   timestamps: true,

@@ -30,14 +30,14 @@ function getQuestions(questionFilter) {
     return new Promise((resolve, reject) => {
         try {
             QuestionAndAnswer.find(questionFilter)
-            .populate('createdBy', 'name')
-            .exec(function (error, doc) {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(doc);
-                }
-            });
+                .populate('createdBy', 'name')
+                .exec(function (error, doc) {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve(doc);
+                    }
+                });
         } catch (error) {
             console.log('error', error);
             reject(error);
@@ -49,15 +49,15 @@ function getQuestionAnswersById(questionId) {
     return new Promise((resolve, reject) => {
         try {
             QuestionAndAnswer.findOne({ _id: questionId })
-            .populate('createdBy', 'name')
-            .populate('answers.answeredBy', 'name')
-            .exec(function (error, doc) {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(doc);
-                }
-            });
+                .populate('createdBy', 'name')
+                .populate('answers.answeredBy', 'name')
+                .exec(function (error, doc) {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve(doc);
+                    }
+                });
         } catch (error) {
             reject(error);
         }
@@ -88,7 +88,10 @@ function answerAQuestion(questionId, answer) {
         try {
             QuestionAndAnswer.updateOne(
                 { _id: questionId },
-                { $push: { answers: answer } }
+                {
+                    $set: { isAnswered: true },
+                    $push: { answers: answer }
+                }
             ).exec(function (error, doc) {
                 if (error) {
                     reject(error);

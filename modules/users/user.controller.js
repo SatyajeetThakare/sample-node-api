@@ -26,6 +26,13 @@ async function getAll(req, res, next) {
         .catch(error => res.json({ error: false, success: true, message: (error || error.error) || error.message, data: {} }));
 }
 
+async function getUserNotifications(req, res, next) {
+    UserService.getUserNotifications(req)
+        .then((user) => {
+            res.json({ error: false, success: true, message: "User notifications fetched successfully", data: user })
+        }).catch(error => res.json({ error: false, success: true, message: (error || error.error) || error.message, data: {} }));
+}
+
 async function getCurrent(req, res, next) {
     UserService.getById(req.user.sub)
         .then(user => user ? res.json(user) : res.sendStatus(404))
@@ -54,6 +61,7 @@ module.exports = {
     authenticate,
     register,
     getAll,
+    getUserNotifications,
     getCurrent,
     getById,
     update,
