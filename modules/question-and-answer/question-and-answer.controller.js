@@ -50,6 +50,19 @@ async function getQuestionAnswersById(req, res, next) {
     }
 }
 
+async function viewAnsweredQuestions(req, res, next) {
+    try {
+        const userId = await getUserId(req);
+        QuestionAndAnswerService.viewAnsweredQuestions(userId).then((doc) => {
+            res.json({ error: false, success: true, message: "Question and answers read successfully", data: doc })
+        }).catch(error => {
+            sendResponse(res, 401, null, (error.message || error || error.error), false, true);
+        });   
+    } catch (error) {
+        sendResponse(res, 401, null, (error.message || error || error.error), false, true);
+    }
+}
+
 async function update(req, res, next) {
     req.body.updatedBy = await getUserId(req);
     QuestionAndAnswerService.update(req.body)
@@ -82,5 +95,6 @@ module.exports = {
     getQuestionAnswersById,
     update,
     answerAQuestion,
+    viewAnsweredQuestions,
     _delete
 };

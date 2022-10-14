@@ -7,6 +7,8 @@ module.exports = {
     create,
     update,
     answerAQuestion,
+    viewAnsweredQuestions,
+    checkIfQuestionsAreUnanswered,
     delete: _delete
 };
 
@@ -58,6 +60,42 @@ function getQuestionAnswersById(questionId) {
                         resolve(doc);
                     }
                 });
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
+function checkIfQuestionsAreUnanswered(userId) {
+    return new Promise((resolve, reject) => {
+        try {
+            QuestionAndAnswer.find({ isActive: true, createdBy: userId, isAnswered: true })
+                .exec(function (error, doc) {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve(doc);
+                    }
+                });
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
+function viewAnsweredQuestions(userId) {
+    return new Promise((resolve, reject) => {
+        try {
+            QuestionAndAnswer.update(
+                { createdBy: userId },
+                { isAnswered: false }
+            ).exec(function (error, doc) {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(doc);
+                }
+            });
         } catch (error) {
             reject(error);
         }

@@ -17,6 +17,7 @@ const ArticleSchema = new mongoose.Schema({
   articleImage: {
     type: String,
   },
+  viewedBy: [ Number ],
   remarks: {
     type: String,
   },
@@ -30,9 +31,11 @@ const ArticleSchema = new mongoose.Schema({
   },
   createdBy: {
     type: mongoose.Schema.Types.Mixed,
+    ref: 'User'
   },
   updatedBy: {
     type: mongoose.Schema.Types.Mixed,
+    ref: 'User'
   }
 }, {
   timestamps: true,

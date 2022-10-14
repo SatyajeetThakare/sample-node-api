@@ -22,9 +22,10 @@ async function create(req, res, next) {
 
 async function getArticles(req, res, next) {
     try {
+        const userId = await getUserId(req);
         let _filter = req.query.filter || {};
         _filter.isActive = true;
-        ArticleService.getArticles(req.body).then((doc) => {
+        ArticleService.getArticles(userId, req.body).then((doc) => {
             res.json({ error: false, success: true, message: "Articles fetched successfully", data: doc })
         }).catch(error => {
             sendResponse(res, 401, null, (error.message || error || error.error), false, true);
@@ -36,7 +37,8 @@ async function getArticles(req, res, next) {
 
 async function getById(req, res, next) {
     try {
-        ArticleService.getById(req.params.id).then((doc) => {
+        const userId = await getUserId(req);
+        ArticleService.getById(req.params.id, userId).then((doc) => {
             res.json({ error: false, success: true, message: "Article fetched successfully", data: doc })
         }).catch(error => {
             sendResponse(res, 401, null, (error.message || error || error.error), false, true);

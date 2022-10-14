@@ -6,6 +6,10 @@ const TokenService = require('../token/token.service');
 const config = require('../../config/config');
 const { sendResponse } = require('../../utils');
 
+const { getUserId } = require('../../middlewares/isAuthenticated');
+const { checkIfQuestionsAreUnanswered } = require('../question-and-answer/question-and-answer.service');
+const { unseenArticles } = require('../article/article.service');
+
 module.exports = {
     authenticate,
     getAll,
@@ -61,8 +65,22 @@ async function getAll() {
     return await User.find();
 }
 
-async function getUserNotifications() {
-    return await User.find();
+async function getUserNotifications(userId) {
+    try {
+        let notification;
+        const unansweredQuestions = await checkIfQuestionsAreUnanswered(userId);
+        const unseenArticlesList = await unseenArticles(userId);
+        const unseenPodcasts = await checkIfQuestionsAreUnanswered(userId);
+        notification = {
+            unansweredQuestions: unansweredQuestions.length,
+            unseenArticles: unseenArticlesList.length,
+            unseenPodcasts: unseenPodcasts.length
+        }
+        console.log('notification', notification);
+        return notification;
+    } catch (e) {
+        console.log('e', e);
+    }
 }
 
 async function getById(id) {

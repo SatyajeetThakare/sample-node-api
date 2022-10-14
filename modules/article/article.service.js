@@ -6,7 +6,8 @@ module.exports = {
     getById,
     create,
     update,
-    delete: _delete
+    delete: _delete,
+    unseenArticles
 };
 
 function create(article) {
@@ -25,43 +26,57 @@ function create(article) {
     });
 }
 
-function getArticles(allArticle) {
+function getArticles(userId, allArticle) {
     return new Promise((resolve, reject) => {
         try {
-            Article.find({ 'isActive': true }).exec(function (error, doc) {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(doc);
-                }
-            });
+            Article.find({ 'isActive': true })
+                .populate('createdBy', 'name')
+                .exec(function (error, doc) {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        // Use this to get pure array of document object
+                        let data = JSON.parse(JSON.stringify(doc));
+                        // Add is viewed property to every article
+                        let result = data.map((e) => ({
+                            ...e,
+                            isViewed: e.viewedBy.includes(userId)
+                        }));
+                        resolve(result);
+                    }
+                });
         } catch (error) {
             reject(error);
         }
     });
 }
 
-function getById(articleId) {
-    return new Promise((resolve, reject) => {
+function getById(articleId, userId) {
+    return new Promise(async(resolve, reject) => {
         try {
-            Article.findOne({ _id: articleId }).exec(function (error, doc) {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(doc);
-                }
-            });
+            let result = await markArticleAsSeen(articleId, userId);
+            Article.findOne({ _id: articleId })
+                .populate('createdBy', 'name')
+                .exec(function (error, doc) {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve(doc);
+                    }
+                });
         } catch (error) {
             reject(error);
         }
     });
 }
-
 
 function update(article) {
     return new Promise((resolve, reject) => {
         try {
-            Article.updateOne({ _id: article._id }, { isCompleted: true, updatedBy: article.updatedBy }).exec(function (error, doc) {
+            Article.updateOne(
+                { _id: article._id },
+                { isCompleted: true, updatedBy: article.updatedBy }
+            ).exec(function (error, doc) {
                 if (error) {
                     reject(error);
                 } else {
@@ -77,7 +92,46 @@ function update(article) {
 function _delete(id) {
     return new Promise((resolve, reject) => {
         try {
-            Article.updateOne({ _id: id }, { isActive: false }).exec(function (error, doc) {
+            Article.updateOne(
+                { _id: id },
+                { isActive: false }
+            ).exec(function (error, doc) {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(doc);
+                }
+            });
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
+function unseenArticles(userId) {
+    return new Promise((resolve, reject) => {
+        try {
+            Article.find({ isActive: true, viewedBy: { $nin: [userId] } })
+                .exec(function (error, doc) {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve(doc);
+                    }
+                });
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
+function markArticleAsSeen(articleId, userId) {
+    return new Promise((resolve, reject) => {
+        try {
+            Article.updateOne(
+                { _id: articleId },
+                { $addToSet: { viewedBy: userId } }
+            ).exec(function (error, doc) {
                 if (error) {
                     reject(error);
                 } else {
