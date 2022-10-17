@@ -72,7 +72,6 @@ async function getUserNotifications(userId) {
         const unansweredQuestions = await checkIfQuestionsAreUnanswered(userId);
         const unseenArticlesList = await unseenArticles(userId);
         const unseenPodcastsList = await unseenPodcasts(userId);
-        console.log('unseenPodcastsList', unseenPodcastsList);
         notification = {
             unansweredQuestions: unansweredQuestions.length,
             unseenArticles: unseenArticlesList.length,

@@ -7,6 +7,19 @@ const { getUserId } = require('../../middlewares/isAuthenticated');
 
 module.exports = router;
 
+async function getPodcasts(req, res, next) {
+    try {
+        const userId = await getUserId(req);
+        PodcastService.unseenPodcasts(userId).then((doc) => {
+            res.json({ error: false, success: true, message: "Podcasts fetched successfully", data: doc })
+        }).catch(error => {
+            sendResponse(res, 500, null, (error.message || error || error.error), false, true);
+        });
+    } catch (error) {
+        sendResponse(res, 500, null, (error.message || error || error.error), false, true);
+    }
+}
+
 async function informNewPodcastIsAvailable(req, res, next) {
     try {
         const userId = await getUserId(req);
@@ -27,7 +40,7 @@ async function informNewPodcastIsAvailable(req, res, next) {
 async function readPodcasts(req, res, next) {
     try {
         const userId = await getUserId(req);
-        PodcastService.getById(req.params.id, userId).then((doc) => {
+        PodcastService.readPodcasts(userId).then((doc) => {
             res.json({ error: false, success: true, message: "Podcasts marked as read successfully", data: doc })
         }).catch(error => {
             sendResponse(res, 500, null, (error.message || error || error.error), false, true);
@@ -38,6 +51,7 @@ async function readPodcasts(req, res, next) {
 }
 
 module.exports = {
+    getPodcasts,
     informNewPodcastIsAvailable,
     readPodcasts
 };
