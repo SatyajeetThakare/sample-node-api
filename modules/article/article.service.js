@@ -27,8 +27,10 @@ function create(article) {
 }
 
 function getArticles(userId, allArticle) {
-    return new Promise((resolve, reject) => {
+    return new Promise(async(resolve, reject) => {
         try {
+            let result = await markAllArticlesAsSeen(userId);
+            console.log('result', result);
             Article.find({ 'isActive': true })
                 .populate('createdBy', 'name')
                 .exec(function (error, doc) {
@@ -130,6 +132,25 @@ function markArticleAsSeen(articleId, userId) {
         try {
             Article.updateOne(
                 { _id: articleId },
+                { $addToSet: { viewedBy: userId } }
+            ).exec(function (error, doc) {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(doc);
+                }
+            });
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
+function markAllArticlesAsSeen(userId) {
+    return new Promise((resolve, reject) => {
+        try {
+            Article.updateMany(
+                {},
                 { $addToSet: { viewedBy: userId } }
             ).exec(function (error, doc) {
                 if (error) {

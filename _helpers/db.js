@@ -8,7 +8,8 @@ module.exports = {
     Role: require('../modules/role/role.model'),
     Token: require('../modules/token/token.model'),
     Event: require('../modules/event/event.model'),
-    Article: require('../modules/article/article.model'),
     Task: require('../modules/task/task.model'),
-    QuestionAndAnswer: require('../modules/question-and-answer/question-and-answer.model'),
+    Article: require('../modules/article/article.model'),
+    Podcast: require('../modules/podcast/podcast.model'),
+    QuestionAndAnswer: require('../modules/question-and-answer/question-and-answer.model')
 };

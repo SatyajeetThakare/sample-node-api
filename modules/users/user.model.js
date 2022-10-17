@@ -45,7 +45,7 @@ const UserSchema = new mongoose.Schema({
   role: {
     type: Number,
     ref: 'Role',
-    default: 1,
+    default: 2,
     required: [true, 'can\'t be blank'],
   },
   image: {

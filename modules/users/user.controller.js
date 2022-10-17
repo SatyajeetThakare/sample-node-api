@@ -29,7 +29,6 @@ async function getAll(req, res, next) {
 }
 
 async function getUserNotifications(req, res, next) {
-    console.log('In getUserNotifications');
     let userId = await getUserId(req);
     UserService.getUserNotifications(userId)
         .then((user) => {

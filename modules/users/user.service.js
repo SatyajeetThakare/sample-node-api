@@ -9,6 +9,7 @@ const { sendResponse } = require('../../utils');
 const { getUserId } = require('../../middlewares/isAuthenticated');
 const { checkIfQuestionsAreUnanswered } = require('../question-and-answer/question-and-answer.service');
 const { unseenArticles } = require('../article/article.service');
+const { unseenPodcasts } = require('../podcast/podcast.service');
 
 module.exports = {
     authenticate,
@@ -70,16 +71,16 @@ async function getUserNotifications(userId) {
         let notification;
         const unansweredQuestions = await checkIfQuestionsAreUnanswered(userId);
         const unseenArticlesList = await unseenArticles(userId);
-        const unseenPodcasts = await checkIfQuestionsAreUnanswered(userId);
+        const unseenPodcastsList = await unseenPodcasts(userId);
+        console.log('unseenPodcastsList', unseenPodcastsList);
         notification = {
             unansweredQuestions: unansweredQuestions.length,
             unseenArticles: unseenArticlesList.length,
-            unseenPodcasts: unseenPodcasts.length
+            unseenPodcasts: unseenPodcastsList.length
         }
-        console.log('notification', notification);
         return notification;
-    } catch (e) {
-        console.log('e', e);
+    } catch (error) {
+        sendResponse(res, 500, null, (error.message || error || error.error), false, true);
     }
 }
 
