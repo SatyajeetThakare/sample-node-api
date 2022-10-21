@@ -23,7 +23,6 @@ async function create(req, res, next) {
 async function getArticles(req, res, next) {
     try {
         const userId = await getUserId(req);
-        console.log('userId', userId);
         let _filter = req.query.filter || {};
         _filter.isActive = true;
         ArticleService.getArticles(userId, req.body).then((doc) => {

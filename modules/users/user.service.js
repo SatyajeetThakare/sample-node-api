@@ -14,6 +14,7 @@ const { unseenPodcasts } = require('../podcast/podcast.service');
 module.exports = {
     authenticate,
     getAll,
+    getAdminUsers,
     getById,
     getUserNotifications,
     create,
@@ -132,4 +133,8 @@ async function update(id, userParam) {
 
 async function _delete(id) {
     await User.findByIdAndRemove(id);
+}
+
+async function getAdminUsers() {
+    return await User.find({ role: 1 });
 }

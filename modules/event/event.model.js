@@ -34,6 +34,7 @@ const EventSchema = new mongoose.Schema({
   }],
   createdBy: {
     type: mongoose.Schema.Types.Mixed,
+    ref: 'User'
   },
   updatedBy: {
     type: mongoose.Schema.Types.Mixed,

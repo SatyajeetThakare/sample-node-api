@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const EventService = require('./event.service');
+const { getUserId } = require('../../middlewares/isAuthenticated');
 
 module.exports = router;
 
 async function create(req, res, next) {
+    req.body.createdBy = await getUserId(req);
     EventService.create(req.body).then((doc) => {
         res.json({ error: false, success: true, message: "Event created successfully", data: doc });
     }).catch(error => {
@@ -13,7 +15,7 @@ async function create(req, res, next) {
 }
 
 async function getAll(req, res, next) {
-
+    let userId = await getUserId(req);
     let _filter = {};
     if (req.query && req.query.limit > 0) {
         _filter.limit = Number(req.query.limit);
@@ -21,7 +23,7 @@ async function getAll(req, res, next) {
         _filter.limit = null;
     }
     
-    EventService.getAll(_filter).then((doc) => {
+    EventService.getAll(_filter, userId).then((doc) => {
         res.json({ error: false, success: true, message: "Events fetched successfully", data: doc })
     }).catch(error => {
         next(error);
