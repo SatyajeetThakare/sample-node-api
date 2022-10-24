@@ -32,7 +32,7 @@ let corsOptions = {
   credentials: true,
   preflightContinue: false,
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Total-Count', 'x-access-token',
-    'Content-Range', 'Access-Control-Allow-Methods', '*'],
+    'Content-Range', 'Access-Control-Allow-Methods', 'Access-Control-Allow-Origin', '*'],
   methods: ['GET', 'POST', 'OPTIONS', 'DELETE', 'PUT'],
 };
 app.use(cors(corsOptions));
