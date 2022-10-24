@@ -1,5 +1,6 @@
 const db = require('../../_helpers/db');
 const Article = db.Article;
+const FileUploadService = require('../../utils/fileUpload');
 
 module.exports = {
     getArticles,
@@ -10,13 +11,15 @@ module.exports = {
     unseenArticles
 };
 
-function create(article) {
+function create(req) {
     return new Promise((resolve, reject) => {
         try {
-            Article.create(article, function (error, doc) {
+            const fileType = 'image';
+            Article.create(req.body, async function (error, doc) {
                 if (error) {
                     reject(error);
                 } else {
+                    let result = await uploadFile(req, fileType, doc);
                     resolve(doc);
                 }
             });
@@ -26,11 +29,33 @@ function create(article) {
     });
 }
 
+function uploadFile(req, fileType, article) {
+    return new Promise(async (resolve, reject) => {
+        FileUploadService.uploadFile(req, fileType, 'article-uploads').then(async (filePath) => {
+            let docObj = {
+                url: filePath,
+                fileName: req.file.originalname,
+                uploadedOn: new Date()
+            }
+            console.log('article', article);
+            const query = { _id: article._id };
+            const update = {
+                $set: { [`attachment`]: docObj }
+            }            
+            // Update the collection
+            let updateAttachmentsInfoResult = await updateArticleAttachmentsInfo(query, update);
+            resolve(updateAttachmentsInfoResult);
+        }).catch((error) => {
+            console.log('Line no 133: Invalid file type provided', error);
+            reject(error);
+        });
+    });
+}
+
 function getArticles(userId, allArticle) {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             let result = await markAllArticlesAsSeen(userId);
-            console.log('result', result);
             Article.find({ 'isActive': true })
                 .populate('createdBy', 'name')
                 .exec(function (error, doc) {
@@ -54,7 +79,7 @@ function getArticles(userId, allArticle) {
 }
 
 function getById(articleId, userId) {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             let result = await markArticleAsSeen(articleId, userId);
             Article.findOne({ _id: articleId })
@@ -161,6 +186,22 @@ function markAllArticlesAsSeen(userId) {
             });
         } catch (error) {
             reject(error);
+        }
+    });
+}
+
+function updateArticleAttachmentsInfo(query, update) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            Article.update(query, update, function (error, doc) {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(doc);
+                }
+            });
+        } catch (error) {
+            throw error;
         }
     });
 }

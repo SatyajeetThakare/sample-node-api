@@ -5,9 +5,17 @@ var app = express();
 const http = require('http');
 //  CONFIG
 const config = require('./config/default.json');
+var bodyParser = require('body-parser')
 
 require('dotenv').config();
-app.use(express.json());
+// app.use(express.json());
+// app.use(express.json({ limit: '10mb' }));
+// app.use(express.urlencoded({ limit: "10mb", extended: true, parameterLimit: 50000 }));
+app.use(bodyParser.urlencoded({
+  extended: true,
+  limit: '2mb',
+}))
+app.use(bodyParser.json({ limit: '2mb' }))
 var cors = require('cors');
 
 const session = require('express-session');

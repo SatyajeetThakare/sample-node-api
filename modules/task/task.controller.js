@@ -10,14 +10,13 @@ module.exports = router;
 async function create(req, res, next) {
     try {
         req.body.createdBy = await getUserId(req);
-        console.log('req.body', req.body);
         TaskService.create(req.body).then((doc) => {
             res.json({ error: false, success: true, message: "Task created successfully", data: doc });
         }).catch(error => {
-            sendResponse(res, 401, null, (error.message || error || error.error), false, true);
+            sendResponse(res, 500, null, (error.message || error || error.error), false, true);
         });
     } catch (error) {
-        sendResponse(res, 401, null, (error.message || error || error.error), false, true);
+        sendResponse(res, 500, null, (error.message || error || error.error), false, true);
     }
 }
 
@@ -30,11 +29,10 @@ async function getTasks(req, res, next) {
         TaskService.getTasks(_filter).then((doc) => {
             res.json({ error: false, success: true, message: "Tasks fetched successfully", data: doc })
         }).catch(error => {
-            sendResponse(res, 401, null, (error.message || error || error.error), false, true);
+            sendResponse(res, 500, null, (error.message || error || error.error), false, true);
         });
     } catch (error) {
-        console.log('error', error);
-        sendResponse(res, 401, null, (error.message || error || error.error), false, true);
+        sendResponse(res, 500, null, (error.message || error || error.error), false, true);
     }
 }
 
@@ -50,13 +48,13 @@ async function update(req, res, next) {
     req.body.updatedBy = await getUserId(req);
     TaskService.update(req.body)
         .then(() => res.json({ error: false, success: true, message: "Tasks updated successfully", data: {} }))
-        .catch(error => sendResponse(res, 401, null, (error.message || error || error.error), false, true));
+        .catch(error => sendResponse(res, 500, null, (error.message || error || error.error), false, true));
 }
 
 async function _delete(req, res, next) {
     TaskService.delete(req.params.id)
         .then(() => res.json({ error: false, success: true, message: "Tasks deleted successfully", data: {} }))
-        .catch(error => sendResponse(res, 401, null, (error.message || error || error.error), false, true));
+        .catch(error => sendResponse(res, 500, null, (error.message || error || error.error), false, true));
 }
 
 module.exports = {

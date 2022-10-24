@@ -13,10 +13,10 @@ async function create(req, res, next) {
         QuestionAndAnswerService.create(req.body).then((doc) => {
             res.json({ error: false, success: true, message: "Question created successfully", data: doc });
         }).catch(error => {
-            sendResponse(res, 401, null, (error.message || error || error.error), false, true);
+            sendResponse(res, 500, null, (error.message || error || error.error), false, true);
         });
     } catch (error) {
-        sendResponse(res, 401, null, (error.message || error || error.error), false, true);
+        sendResponse(res, 500, null, (error.message || error || error.error), false, true);
     }
 }
 
@@ -31,10 +31,10 @@ async function getQuestions(req, res, next) {
         QuestionAndAnswerService.getQuestions(_filter).then((doc) => {
             res.json({ error: false, success: true, message: "Questions fetched successfully", data: doc })
         }).catch(error => {
-            sendResponse(res, 401, null, (error.message || error || error.error), false, true);
+            sendResponse(res, 500, null, (error.message || error || error.error), false, true);
         });
     } catch (error) {
-        sendResponse(res, 401, null, (error.message || error || error.error), false, true);
+        sendResponse(res, 500, null, (error.message || error || error.error), false, true);
     }
 }
 
@@ -43,10 +43,10 @@ async function getQuestionAnswersById(req, res, next) {
         QuestionAndAnswerService.getQuestionAnswersById(req.params.id).then((doc) => {
             res.json({ error: false, success: true, message: "Question and answers fetched successfully", data: doc })
         }).catch(error => {
-            sendResponse(res, 401, null, (error.message || error || error.error), false, true);
+            sendResponse(res, 500, null, (error.message || error || error.error), false, true);
         });   
     } catch (error) {
-        sendResponse(res, 401, null, (error.message || error || error.error), false, true);
+        sendResponse(res, 500, null, (error.message || error || error.error), false, true);
     }
 }
 
@@ -56,10 +56,10 @@ async function viewAnsweredQuestions(req, res, next) {
         QuestionAndAnswerService.viewAnsweredQuestions(userId).then((doc) => {
             res.json({ error: false, success: true, message: "Question and answers read successfully", data: doc })
         }).catch(error => {
-            sendResponse(res, 401, null, (error.message || error || error.error), false, true);
+            sendResponse(res, 500, null, (error.message || error || error.error), false, true);
         });   
     } catch (error) {
-        sendResponse(res, 401, null, (error.message || error || error.error), false, true);
+        sendResponse(res, 500, null, (error.message || error || error.error), false, true);
     }
 }
 
@@ -67,7 +67,7 @@ async function update(req, res, next) {
     req.body.updatedBy = await getUserId(req);
     QuestionAndAnswerService.update(req.body)
         .then(() => res.json({ error: false, success: true, message: "Question updated successfully", data: {} }))
-        .catch(error => sendResponse(res, 401, null, (error.message || error || error.error), false, true));
+        .catch(error => sendResponse(res, 500, null, (error.message || error || error.error), false, true));
 }
 
 async function answerAQuestion(req, res, next) {
@@ -79,14 +79,14 @@ async function answerAQuestion(req, res, next) {
     }
     QuestionAndAnswerService.answerAQuestion(req.body.questionId, answer)
         .then((doc) => res.json({ error: false, success: true, message: "Answer added successfully", data: doc }))
-        .catch(error => sendResponse(res, 401, null, (error.message || error || error.error), false, true));
+        .catch(error => sendResponse(res, 500, null, (error.message || error || error.error), false, true));
 }
 
 
 async function _delete(req, res, next) {
     QuestionAndAnswerService.delete(req.params.id)
         .then(() => res.json({ error: false, success: true, message: "Question deleted successfully", data: {} }))
-        .catch(error => sendResponse(res, 401, null, (error.message || error || error.error), false, true));
+        .catch(error => sendResponse(res, 500, null, (error.message || error || error.error), false, true));
 }
 
 module.exports = {

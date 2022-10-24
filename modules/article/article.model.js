@@ -17,6 +17,9 @@ const ArticleSchema = new mongoose.Schema({
   articleImage: {
     type: String,
   },
+  attachment: {
+    type: mongoose.Schema.Types.Mixed
+  },
   viewedBy: [ Number ],
   remarks: {
     type: String,
