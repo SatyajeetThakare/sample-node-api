@@ -5,7 +5,7 @@ var app = express();
 const http = require('http');
 //  CONFIG
 const config = require('./config/default.json');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 
 require('dotenv').config();
 // app.use(express.json());

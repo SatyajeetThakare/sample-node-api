@@ -47,7 +47,6 @@ function authenticate(req) {
                     TokenService.create({ email: userDoc.email, token: token }).then((doc) => {
                         resolve(userDoc);
                     }).catch(error => {
-                        console.log('error', error);
                         reject(error);
                     });
                 } else {
@@ -57,7 +56,6 @@ function authenticate(req) {
                 reject('You are not registered with us, please register to use services');
             }
         } catch (error) {
-            console.log('error', error);
             reject(error);
         }
     });

@@ -20,8 +20,6 @@ async function getAll(req, res, next) {
     if (_filter) {
       allRole = JSON.parse(_filter)
     }
-
-    // console.log('req?.session', req?.session);
     // req.body.createdBy = req?.session?.userInfo && req.session.userInfo._id || 1;
 
     RoleService.getAll(req.body).then((doc) => {

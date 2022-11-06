@@ -16,7 +16,6 @@
  */
 
 function sendResponse(res, statusCode, data = {}, message = 'Server error', success, error) {
-  console.log('Hi', message);
   if (typeof statusCode !== 'number') {
     throw new Error('statusCode should be a number');
   }

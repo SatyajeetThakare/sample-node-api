@@ -14,13 +14,10 @@ const ArticleSchema = new mongoose.Schema({
   description: {
     type: String,
   },
-  articleImage: {
-    type: String,
-  },
-  attachment: {
+  articlePicDetails: {
     type: mongoose.Schema.Types.Mixed
   },
-  viewedBy: [ Number ],
+  viewedBy: [Number],
   remarks: {
     type: String,
   },
